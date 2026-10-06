@@ -86,6 +86,11 @@ def _register_builtins() -> None:
 
         return build(cfg)
 
+    def _openai_http(cfg: Dict[str, Any]) -> LLMClient:
+        from llm_bridge.providers.openai_http import build
+
+        return build(cfg)
+
     def _bedrock(cfg: Dict[str, Any]) -> LLMClient:
         from llm_bridge.providers.bedrock import build
 
@@ -111,6 +116,7 @@ def _register_builtins() -> None:
         return build(merged)
 
     register_provider("openai", _openai)
+    register_provider("openai_http", _openai_http)
     register_provider("claude_cli", _claude_cli)
     register_provider("ollama", _ollama)
     register_provider("bedrock", _bedrock)

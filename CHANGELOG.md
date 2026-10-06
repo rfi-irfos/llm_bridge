@@ -49,3 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/SantanderAI/llm_bridge/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/SantanderAI/llm_bridge/releases/tag/v0.1.0
+
+## Unreleased (fork addition)
+- `openai_http` provider: OpenAI-compatible chat on the standard library (`urllib`), no SDK; https only (or loopback), typed errors, key never in messages.
