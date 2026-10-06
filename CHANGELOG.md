@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (RFI-IRFOS fork, feat/nyx-structured-tools)
+- `LLMClient.chat_json(messages, schema, validator=..., max_repairs=...)`: structured output with a pluggable validator and a bounded repair loop
+  (`JSONResult`, `extract_json`); native `response_format` for the OpenAI-compatible provider via `json_mode`.
+- `LLMClient.chat_with_retries` with exponential backoff for transient errors, typed errors (`LLMTimeoutError`, `LLMRateLimitError`,
+  `LLMProviderError`, `LLMInvalidOutputError`) and a usage hook (`UsageEvent`, `set_usage_hook`).
+- Tool-call proposals: `tools`/`tool_choice` pass-through and `LLMResponse.tool_calls` in the OpenAI-compatible provider. Tool calls are
+  proposals only; this library never executes them.
+- `claude_cli` provider (Claude Code in print mode, isolated: no tools, no session persistence, no MCP) and an `ollama` alias.
+- Request timeout for the OpenAI-compatible provider.
+
 ### Added
 - Open-source readiness scaffolding:
   - `NOTICE`, `CONTRIBUTING.md` (CLA), `CODE_OF_CONDUCT.md`, `SECURITY.md`, `CODEOWNERS`

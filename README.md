@@ -116,6 +116,23 @@ class LLMResponse:
     # .total_tokens
 ```
 
+## Structured output, retries, tools (fork additions)
+
+```python
+from llm_bridge import create_llm
+
+llm = create_llm({"provider": "claude_cli", "model": "opus"})      # or openai / ollama with a base_url
+llm.set_usage_hook(print)                                           # tokens, latency, cost per call
+result = llm.chat_json(messages, schema, validator=my_validator, max_repairs=1)
+print(result.data, result.repairs)
+```
+
+`chat_json` asks for a JSON object that follows the schema, validates it with your callable (a list of error strings, empty when valid) and
+asks again with the errors up to `max_repairs` times; it raises `LLMInvalidOutputError` (with the raw text) when that fails. Transient errors
+(`LLMTimeoutError`, `LLMRateLimitError`) are retried with backoff by `chat_with_retries`. `tools=` and `tool_choice=` are passed through by
+the OpenAI-compatible provider and the answer's `tool_calls` are returned as proposals; this library never executes a tool. The `claude_cli`
+provider runs `claude -p` without tools, sessions, MCP servers or user settings in an empty working directory.
+
 ## Adding a provider
 
 Implement `LLMClient`, expose `build(config) -> LLMClient`, and register it in

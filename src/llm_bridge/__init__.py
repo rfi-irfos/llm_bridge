@@ -15,13 +15,21 @@ a vendor SDK — those are optional extras.
 
 from __future__ import annotations
 
-from llm_bridge.base import LLMClient, LLMResponse, Message, split_system_messages
+from llm_bridge.base import LLMClient, LLMResponse, Message, UsageEvent, split_system_messages
+from llm_bridge.errors import (
+    LLMBridgeError,
+    LLMInvalidOutputError,
+    LLMProviderError,
+    LLMRateLimitError,
+    LLMTimeoutError,
+)
 from llm_bridge.registry import (
     available_providers,
     create_llm,
     load_config,
     register_provider,
 )
+from llm_bridge.structured import JSONResult
 
 __version__ = "0.1.0"
 
@@ -29,6 +37,13 @@ __all__ = [
     "LLMClient",
     "LLMResponse",
     "Message",
+    "UsageEvent",
+    "JSONResult",
+    "LLMBridgeError",
+    "LLMInvalidOutputError",
+    "LLMProviderError",
+    "LLMRateLimitError",
+    "LLMTimeoutError",
     "split_system_messages",
     "create_llm",
     "register_provider",

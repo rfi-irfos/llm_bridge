@@ -96,7 +96,23 @@ def _register_builtins() -> None:
 
         return build(cfg)
 
+    def _claude_cli(cfg: Dict[str, Any]) -> LLMClient:
+        from llm_bridge.providers.claude_cli import build
+
+        return build(cfg)
+
+    def _ollama(cfg: Dict[str, Any]) -> LLMClient:
+        # Ollama serves an OpenAI-compatible API; no key is needed, the SDK just wants a non-empty one.
+        from llm_bridge.providers.openai_sdk import build
+
+        merged = dict(cfg)
+        merged.setdefault("base_url", "http://localhost:11434/v1")
+        merged.setdefault("api_key", "ollama")
+        return build(merged)
+
     register_provider("openai", _openai)
+    register_provider("claude_cli", _claude_cli)
+    register_provider("ollama", _ollama)
     register_provider("bedrock", _bedrock)
     register_provider("aws", _bedrock)  # alias
     register_provider("google", _google)
